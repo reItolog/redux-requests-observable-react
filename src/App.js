@@ -1,24 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
+
+import { fetchBooks } from "./store/flights/actions";
+
+import RqQuery from "./components/RqQuery/RqQuery";
+import OneList from "./components/OneList/OneList";
+import SecondList from "./components/SecondList/SecondList";
+
+import "./App.css";
 
 function App() {
+  const [toggle, setToggle] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchBooks());
+  }, [dispatch]);
+
+  const renderComponent = useCallback(
+    (props) => {
+      if (toggle) return <OneList {...props} />;
+      else return <SecondList {...props} />;
+    },
+    [toggle]
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => setToggle(!toggle)}>toggle</button>
+      <RqQuery queryType="FETCH_BOOKS" render={renderComponent} />
     </div>
   );
 }

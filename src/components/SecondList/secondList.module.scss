@@ -1,0 +1,13 @@
+.secondList {
+  display: flex;
+  padding: 1%;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.secondListTitle {
+  color: gray;
+  border: 1px solid green;
+  padding: 5px;
+  margin: 1%;
+}
